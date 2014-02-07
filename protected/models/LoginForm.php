@@ -48,7 +48,7 @@ class LoginForm extends CFormModel
 	{
 		if(!$this->hasErrors())
 		{
-			$this->_identity=new UserIdentity($this->username,$this->password,6,array('vip'=>1,'point'=>5));
+			$this->_identity=new UserIdentity($this->username,$this->password);
 			if(!$this->_identity->authenticate())
 				$this->addError('password','Incorrect username or password.');
 		}
@@ -62,7 +62,7 @@ class LoginForm extends CFormModel
 	{
 		if($this->_identity===null)
 		{
-			$this->_identity=new UserIdentity($this->username,$this->password,6,array('vip'=>1,'point'=>5));
+			$this->_identity=new UserIdentity($this->username,$this->password);
 			$this->_identity->authenticate();
 		}
 		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
