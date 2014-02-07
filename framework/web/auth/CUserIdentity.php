@@ -26,6 +26,8 @@
  */
 class CUserIdentity extends CBaseUserIdentity
 {
+  public $userid;
+  public $extraData;
 	/**
 	 * @var string username
 	 */
@@ -40,10 +42,12 @@ class CUserIdentity extends CBaseUserIdentity
 	 * @param string $username username
 	 * @param string $password password
 	 */
-	public function __construct($username,$password)
+	public function __construct($username,$password,$userid = 0,$extraData = array())
 	{
 		$this->username=$username;
 		$this->password=$password;
+		$this->userid=$userid;
+		$this->extraData=$extraData;
 	}
 
 	/**
@@ -65,9 +69,13 @@ class CUserIdentity extends CBaseUserIdentity
 	 */
 	public function getId()
 	{
-		return $this->username;
+		return $this->userid;
 	}
 
+  public function getExtraData(){
+    return $this->extraData;
+  }
+ 
 	/**
 	 * Returns the display name for the identity.
 	 * The default implementation simply returns {@link username}.

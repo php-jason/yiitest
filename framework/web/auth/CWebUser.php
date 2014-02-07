@@ -224,7 +224,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$states=$identity->getPersistentStates();
 		if($this->beforeLogin($id,$states,false))
 		{
-			$this->changeIdentity($id,$identity->getName(),$states);
+			$this->changeIdentity($id,$identity->getName(),$states,$identity->getExtraData());
 
 			if($duration>0)
 			{
@@ -295,6 +295,23 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public function setId($value)
 	{
 		$this->setState('__id',$value);
+	}
+
+	/**
+	 * Returns a value that uniquely represents the user.
+	 * @return mixed the unique identifier for the user. If null, it means the user is a guest.
+	 */
+	public function getExtraData()
+	{
+		return $this->getState('__extraData');
+	}
+
+	/**
+	 * @param mixed $value the unique identifier for the user. If null, it means the user is a guest.
+	 */
+	public function setExtraData($value)
+	{
+		$this->setState('__extraData',$value);
 	}
 
 	/**
@@ -703,10 +720,11 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param string $name the display name for the user
 	 * @param array $states identity states
 	 */
-	protected function changeIdentity($id,$name,$states)
+	protected function changeIdentity($id,$name,$states,$extraData = array())
 	{
 		Yii::app()->getSession()->regenerateID(true);
 		$this->setId($id);
+    $this->setExtraData($extraData);
 		$this->setName($name);
 		$this->loadIdentityStates($states);
 	}
